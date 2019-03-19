@@ -4,40 +4,33 @@ using UnityEngine;
 
 public class Juego : MonoBehaviour
 {
-    Character character = new Character();
+    GenerarHeroe character;
 
     void Start()
     {
-        Generador Generador = new Generador();
+        character = new GenerarHeroe();
         string[] Nombres = new string[] { "Alejandro", "Daniel", "Julio", "Danilo", "Kevin", "Brayan", "Juan", "Sebastian", "Luis", "Alex", "Jorge","Anderson","Cristian","Camilo","Carlos","Felipe","Andres","Carlos","Gustavo","Cesar" };
         int Instancias = Random.Range(4, 10);
-        string Informacion = "";
         for (int i = 0; i < Instancias; i++)
         {
             int Tipo = Random.Range(0, 2);
             if (Tipo == 0)
-                Informacion = Generador.GenerarAldeano(Nombres[Random.Range(0,21)]);
+                new GenerarAldeano(Nombres[Random.Range(0, 21)]);
             else
-                Informacion = Generador.GenerarZonmbie();
-
-            print(Informacion);
+                new GenerarZombie();
         }
         Cursor.visible = false;
-        character.CreateHero();
-        
+
     }
     
     void Update()
     {
         character.Mover();
     }
-
 }
 
-public class Generador
+public class GenerarAldeano
 {
-
-
     /// <summary>
     /// Se usa para generar un aldeano y retornar su nombre y edad en un string
     /// </summary>
@@ -45,34 +38,35 @@ public class Generador
     /// Nombre del aldeano
     /// </param>
     /// <returns></returns>
-    public string GenerarAldeano(string Nombre)
+    public GenerarAldeano(string Nombre)
     {
         int Edad = Random.Range(15, 101);
         GameObject Aldeano = GameObject.CreatePrimitive(PrimitiveType.Cube);
         Aldeano.transform.position = new Vector3(Random.Range(-10, 11), 0, Random.Range(-10, 11));
-        return "Hola soy " + Nombre + " y tengo " + Edad + " Años";
-
+        Debug.Log("Hola soy " + Nombre + " y tengo " + Edad + " Años");
     }
+}
 
-
-
+public class GenerarZombie
+{
     /// <summary>
     /// Se usa para generar un zombie y retornar el color que tiene
     /// </summary>
     /// <returns></returns>
-    public string GenerarZonmbie()
+    public GenerarZombie()
     {
-        int color = Random.Range(0,4);
+        int color = Random.Range(0, 4);
         string nombreColor = "";
         GameObject zombies = GameObject.CreatePrimitive(PrimitiveType.Cube);
         Renderer renderer = zombies.GetComponent<Renderer>();
         zombies.transform.position = new Vector3(Random.Range(-10, 11), 0, Random.Range(-10, 11));
+
         if (color == 0)
         {
             renderer.material.color = UnityEngine.Color.cyan;
             nombreColor = "Cyan";
         }
-        else if(color == 1)
+        else if (color == 1)
         {
             nombreColor = "Verde";
             renderer.material.color = UnityEngine.Color.green;
@@ -83,37 +77,32 @@ public class Generador
             renderer.material.color = UnityEngine.Color.magenta;
         }
 
-        return "Soy un zombie color " + nombreColor;
+        Debug.Log("Soy un zombie color " + nombreColor);
     }
 }
 
-public class Character
+public class GenerarHeroe
 {
-
-    GameObject hero;
     Transform heroTransform;
-
 
     /// <summary>
     /// Este metodo se encarga de crear el personaje principal
     /// </summary>
-    public void CreateHero()
-    {
 
-        hero = GameObject.CreatePrimitive(PrimitiveType.Capsule);
-        Renderer color = hero.GetComponent<Renderer>();
-        heroTransform = hero.GetComponent<Transform>();
+    public GenerarHeroe()
+    {
+        GameObject Heroe = GameObject.CreatePrimitive(PrimitiveType.Capsule);
+        Renderer color = Heroe.GetComponent<Renderer>();
+        heroTransform = Heroe.GetComponent<Transform>();
         color.material.color = Color.red;
-        Camera camera = hero.AddComponent<Camera>();
+        Camera camera = Heroe.AddComponent<Camera>();
         camera.fieldOfView = 70;
     }
-
     /// <summary>
     /// Este metodo se encarga de permitir el movimiento del jugador
     /// </summary>
     public void Mover()
     {
-
         if (Input.GetKey(KeyCode.A))
         {
             heroTransform.Rotate(0, -2, 0);
@@ -130,9 +119,5 @@ public class Character
         {
             heroTransform.Translate(0, 0, -0.5f);
         }
-
-        
-
     }
-
 }
