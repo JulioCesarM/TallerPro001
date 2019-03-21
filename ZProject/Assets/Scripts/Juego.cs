@@ -9,13 +9,13 @@ public class Juego : MonoBehaviour
     void Start()
     {
         character = new GenerarHeroe();
-        string[] Nombres = new string[] { "Alejandro", "Daniel", "Julio", "Danilo", "Kevin", "Brayan", "Juan", "Sebastian", "Luis", "Alex", "Jorge","Anderson","Cristian","Camilo","Carlos","Felipe","Andres","Carlos","Gustavo","Cesar" };
-        int Instancias = Random.Range(4, 10);
-        for (int i = 0; i < Instancias; i++)
+        string[] nombres = new string[] { "Alejandro", "Daniel", "Julio", "Danilo", "Kevin", "Brayan", "Juan", "Sebastian", "Luis", "Alex", "Jorge","Anderson","Cristian","Camilo","Carlos","Felipe","Andres","Carlos","Gustavo","Cesar" };
+        int instancias = Random.Range(4, 10);
+        for (int i = 0; i < instancias; i++)
         {
-            int Tipo = Random.Range(0, 2);
-            if (Tipo == 0)
-                new GenerarAldeano(Nombres[Random.Range(0, 21)]);
+            int tipo = Random.Range(0, 2);
+            if (tipo == 0)
+                new GenerarAldeano(nombres[Random.Range(0, 21)]);
             else
                 new GenerarZombie();
         }
@@ -34,16 +34,33 @@ public class GenerarAldeano
     /// <summary>
     /// Se usa para generar un aldeano y retornar su nombre y edad en un string
     /// </summary>
-    /// <param name="Nombre">
+    /// <param name="nombre">
     /// Nombre del aldeano
     /// </param>
-    /// <returns></returns>
-    public GenerarAldeano(string Nombre)
+    public GenerarAldeano(string nombre)
     {
-        int Edad = Random.Range(15, 101);
-        GameObject Aldeano = GameObject.CreatePrimitive(PrimitiveType.Cube);
-        Aldeano.transform.position = new Vector3(Random.Range(-10, 11), 0, Random.Range(-10, 11));
-        Debug.Log("Hola soy " + Nombre + " y tengo " + Edad + " Años");
+        int edad = Random.Range(15, 101);
+        GameObject aldeano = GameObject.CreatePrimitive(PrimitiveType.Cube);
+        aldeano.transform.position = new Vector3(Random.Range(-10, 11), 0, Random.Range(-10, 11));
+        Debug.Log(DarMensaje(nombre, edad));
+    }
+
+    /// <summary>
+    /// Este metodo es para crear el mensaje del adeano
+    /// </summary>
+    /// <param name="nombre">
+    /// Nombre asignado del aldeano
+    /// </param>
+    /// <param name="edad">
+    /// Edad asignada del aldeano
+    /// </param>
+    /// <returns>
+    /// Retorna el mensaje del aldeano
+    /// </returns>
+    string DarMensaje(string nombre,int edad)
+    {
+        string mensaje = "Hola soy " + nombre + " y tengo " + edad + " Años";
+        return mensaje;
     }
 }
 
@@ -52,7 +69,6 @@ public class GenerarZombie
     /// <summary>
     /// Se usa para generar un zombie y retornar el color que tiene
     /// </summary>
-    /// <returns></returns>
     public GenerarZombie()
     {
         int color = Random.Range(0, 4);
@@ -63,21 +79,36 @@ public class GenerarZombie
 
         if (color == 0)
         {
-            renderer.material.color = UnityEngine.Color.cyan;
+            renderer.material.color = Color.cyan;
             nombreColor = "Cyan";
         }
         else if (color == 1)
         {
             nombreColor = "Verde";
-            renderer.material.color = UnityEngine.Color.green;
+            renderer.material.color = Color.green;
         }
         else if (color == 2)
         {
             nombreColor = "Magenta";
-            renderer.material.color = UnityEngine.Color.magenta;
+            renderer.material.color = Color.magenta;
         }
 
-        Debug.Log("Soy un zombie color " + nombreColor);
+        Debug.Log(DarMensaje(nombreColor));
+    }
+
+    /// <summary>
+    /// Este metodo crea el mensaje del zombie 
+    /// </summary>
+    /// <param name="color">
+    /// Color asignado al zombie
+    /// </param>
+    /// <returns>
+    /// Retorna el mensaje del aldeano
+    /// </returns>
+    string DarMensaje(string color)
+    {
+        string mensaje = "Soy un zombie de color " + color;
+        return mensaje;
     }
 }
 
@@ -91,11 +122,11 @@ public class GenerarHeroe
 
     public GenerarHeroe()
     {
-        GameObject Heroe = GameObject.CreatePrimitive(PrimitiveType.Capsule);
-        Renderer color = Heroe.GetComponent<Renderer>();
-        heroTransform = Heroe.GetComponent<Transform>();
+        GameObject heroe = GameObject.CreatePrimitive(PrimitiveType.Capsule);
+        Renderer color = heroe.GetComponent<Renderer>();
+        heroTransform = heroe.GetComponent<Transform>();
         color.material.color = Color.red;
-        Camera camera = Heroe.AddComponent<Camera>();
+        Camera camera = heroe.AddComponent<Camera>();
         camera.fieldOfView = 70;
     }
     /// <summary>
